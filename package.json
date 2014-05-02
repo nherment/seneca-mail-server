@@ -1,0 +1,35 @@
+{
+  "name": "seneca-mail-server",
+  "version": "0.1.0",
+  "description": "mail server for seneca",
+  "main": "mail-server.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha test --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nherment/seneca-mail-server.git"
+  },
+  "keywords": [
+    "seneca",
+    "smtp",
+    "server"
+  ],
+  "author": "Nicolas Herment <nherment@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nherment/seneca-mail-server/issues"
+  },
+  "homepage": "https://github.com/nherment/seneca-mail-server",
+  "dependencies": {
+    "simplesmtp": "0.3.27",
+    "email-addresses": "1.1.1"
+  },
+  "devDependencies": {
+    "mocha": "1.18.2"
+  },
+  "peerDependencies": {
+    "seneca": "0.5.17",
+    "seneca-mail-reader": ""
+  }
+}
