@@ -17,29 +17,28 @@ module.exports = function(options) {
   })
 
   smtp.on('startData', function(connection) {
-    console.log('startData')
     seneca.log.info('Message from', connection.from, 'to', connection.to)
     seneca.act({role: 'mail-reader', cmd: 'connection', connection: connection})
   })
 
   smtp.on('data', function(connection, chunk){
-    console.log('data')
     seneca.act({role: 'mail-reader', cmd: 'writeChunk', connection: connection, chunk: chunk})
   })
 
   smtp.on('validateSender', function(connection, email, callback) {
-
+    connection.sender = EmailAddress.parseOneAddress(email)
     seneca.act({
       role: 'mail-reader',
       cmd: 'validateSender',
       connection: connection,
-      sender: EmailAddress.parseOneAddress(email)
+      sender: connection.sender
     }, function(err) {
       callback(err)
     })
   })
 
   smtp.on('validateRecipient', function(connection, email, callback) {
+    connection.recipient = EmailAddress.parseOneAddress(email)
     var recipient = email.split('@')
     var local = recipient[0]
     var domain = recipient[1]
@@ -47,7 +46,7 @@ module.exports = function(options) {
       role: 'mail-reader',
       cmd: 'validateRecipient',
       connection: connection,
-      recipient: EmailAddress.parseOneAddress(email)
+      recipient: connection.recipient
     }, function(err) {
       callback(err)
     })
@@ -55,14 +54,12 @@ module.exports = function(options) {
 
 
   smtp.on('dataReady', function(connection, callback){
-    console.log('dataReady')
     seneca.act({role: 'mail-reader', cmd: 'writeEnd', connection: connection}, function(err) {
       callback(err)
     })
   })
 
   seneca.add({init:pluginName}, function(args, done) {
-    console.log('starting smtp server on port', port)
     smtp.listen(port, function(err) {
       if(err) {
         console.error('failed to start smtp server', err)
