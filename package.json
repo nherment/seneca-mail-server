@@ -29,7 +29,7 @@
     "mocha": "1.18.2"
   },
   "peerDependencies": {
-    "seneca": "0.5.17",
+    "seneca": "*",
     "seneca-mail-reader": ""
   }
 }
