@@ -13,7 +13,9 @@ module.exports = function(options) {
     SMTPBanner:       options.banner || 'seneca-smtp',
     name:             options.domain || 'nearform.com',
     secureConnection: options.secure === undefined ? true  : options.secure,
-    debug:            options.debug  === undefined ? false : options.debug
+    debug:            options.debug  === undefined ? false : options.debug,
+    disableDNSValidation: options.disableDNSValidation ===
+      undefined ? false : options.disableDNSValidation
   })
 
   smtp.on('startData', function(connection) {
